@@ -1,10 +1,5 @@
 #include <Arduino.h>
 #include <Servo.h>
-#define aankomstknop 2
-#define vertrekknop 3
-#define witlicht 4
-#define rood1 5
-#define rood2 6
 Servo slagboom;
 bool wit = 1;
 bool rood = 0;
@@ -12,17 +7,17 @@ bool aankomstpiet = 0;
 bool vertrekpiet = 0;
 bool treiniser = 0;
 void aankomst() {
-  digitalWrite(witlicht, LOW);
-  digitalWrite(rood1, rood);
-  digitalWrite(rood2, !rood);
+  digitalWrite(4, LOW);
+  digitalWrite(5, rood);
+  digitalWrite(6, !rood);
   slagboom.write(90);
   treiniser = 1;
   return;
 }
 void vertrek() {
   slagboom.write(0);
-  digitalWrite(rood1, LOW);
-  digitalWrite(rood2, LOW);
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
   treiniser = 0;
 }
 void setup() {
@@ -39,16 +34,16 @@ void setup() {
 void loop() {
   while ((vertrekpiet == 0) && treiniser) {
     rood = !rood;
-    digitalWrite(rood1, rood);
-    digitalWrite(rood2, !rood);
+    digitalWrite(5, rood);
+    digitalWrite(6, !rood);
     delay(175);
-    digitalWrite(rood1, !rood);
-    digitalWrite(rood2, rood);
+    digitalWrite(5, !rood);
+    digitalWrite(6, rood);
     delay(175);
   }
-  digitalWrite(rood1, LOW);
-  digitalWrite(rood2, LOW);
-  digitalWrite(witlicht, wit);
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(4, wit);
   delay(750);
   wit = !wit;
 }
